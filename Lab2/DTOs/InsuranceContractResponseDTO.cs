@@ -1,4 +1,5 @@
 ﻿using Lab2.Entities;
+using System.Text.Json.Serialization;
 
 namespace Lab2.DTOs;
 

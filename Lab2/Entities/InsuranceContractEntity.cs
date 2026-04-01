@@ -1,8 +1,10 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using System.Text.Json.Serialization;
 
 namespace Lab2.Entities;
 
+[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum InsuranceCategory
 {
     Apartment,
@@ -25,8 +27,7 @@ public class InsuranceContractEntity
     public string ObjectIdentity { get; set; } = string.Empty;
 
     [BsonElement("category")]
-    [BsonRepresentation(BsonType.String)]
-    public InsuranceCategory Category { get; set; }
+    public InsuranceCategory Category { get; set; } = InsuranceCategory.Apartment;
 
     [BsonElement("amount")]
     public decimal Amount { get; set; }

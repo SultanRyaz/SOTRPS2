@@ -60,8 +60,8 @@ public class InsuranceContractService
         if (!string.IsNullOrEmpty(objectIdentity))
             filters.Add(filterBuilder.Regex(x => x.ObjectIdentity, new BsonRegularExpression(objectIdentity, "i")));
 
-        if (category.HasValue)
-            filters.Add(filterBuilder.Eq(x => x.Category, category.Value));
+        if (category != null)
+            filters.Add(filterBuilder.Eq(x => x.Category, category));
 
         if (minAmount.HasValue)
             filters.Add(filterBuilder.Gte(x => x.Amount, minAmount.Value));
@@ -113,6 +113,7 @@ public class InsuranceContractService
         if (!ObjectId.TryParse(id, out _))
             return false;
 
+
         var updateBuilder = Builders<InsuranceContractEntity>.Update;
         var updates = new List<UpdateDefinition<InsuranceContractEntity>>();
 
@@ -125,8 +126,7 @@ public class InsuranceContractService
         if (!string.IsNullOrEmpty(dto.ObjectIdentity))
             updates.Add(updateBuilder.Set(x => x.ObjectIdentity, dto.ObjectIdentity));
 
-        if (dto.Category != 0)
-            updates.Add(updateBuilder.Set(x => x.Category, dto.Category));
+        updates.Add(updateBuilder.Set(x => x.Category, dto.Category));
 
         if (dto.Amount != 0)
             updates.Add(updateBuilder.Set(x => x.Amount, dto.Amount));

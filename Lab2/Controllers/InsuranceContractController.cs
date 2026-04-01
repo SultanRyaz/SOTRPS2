@@ -28,16 +28,21 @@ public class InsuranceContractController : ControllerBase
         [FromQuery] string? contractNumber,
         [FromQuery] string? clientIdentity,
         [FromQuery] string? objectIdentity,
-        [FromQuery] InsuranceCategory? category,
+        [FromQuery] string? category,
         [FromQuery] decimal? minAmount,
         [FromQuery] decimal? maxAmount,
         [FromQuery] DateTime? contractDateFrom,
         [FromQuery] DateTime? contractDateTo)
     {
+        InsuranceCategory? queriedCategory = null;
+        if (category != null)
+        {
+            if (Enum.TryParse<InsuranceCategory>(category, out InsuranceCategory result)) queriedCategory = result;
+        }
         var contracts = await _service.FilterAsync(
-            contractNumber, clientIdentity, objectIdentity,
-            category, minAmount, maxAmount,
-            contractDateFrom, contractDateTo);
+        contractNumber, clientIdentity, objectIdentity,
+        queriedCategory, minAmount, maxAmount,
+        contractDateFrom, contractDateTo);
         return Ok(contracts);
     }
 
